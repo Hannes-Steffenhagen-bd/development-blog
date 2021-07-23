@@ -1,0 +1,5 @@
+# generated from package.yaml
+betterdoc-development-blog.cabal
+
+# cabal output directory
+dist-newstyle/

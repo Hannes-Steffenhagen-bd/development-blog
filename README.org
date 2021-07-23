@@ -1,0 +1,19 @@
+#+TITLE: Betterdoc Development Blog
+
+* What is this?
+This is supposed to be my take at a blog to log stuff I do at BetterDoc. To make
+that fun the idea will be to use Hakyll as the basic site generator, Milligram
+as a "base" css defaults set, some custom CSS for nav rules, and when the basic
+stuff is working I also want to add some functionality like "live search" and
+such via purescript.
+
+As of now none of that is implemented but once it is the idea would be to have
+github actions to create a ~gh-pages~ branch from this one (which will remain
+the source branch).
+
+* Todos
+** TODO Create basic hakyll setup
+Basically, just have a simple html template, at least one markdown document
+that's generated based on that template, and spit out a site that github pages understands.
+** TODO Set up Github Actions workflow
+Once basic setup is in place, create github actions to automatically compile&push results to the gh-actions branch
