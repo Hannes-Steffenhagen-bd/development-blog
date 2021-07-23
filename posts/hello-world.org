@@ -1,0 +1,66 @@
+---
+title: Hello World
+...
+#+TITLE: Hello World
+#+DATE: 2021-07-23
+
+This is the first blog post created here. It doesn't really contain anything too
+useful at the moment because it only exists to test to asset creation pipeline.
+In principle what I am hoping to happen is that I can just toss this file to
+[[https://pandoc.org][pandoc]] via [[https://jaspervdj.be/hakyll/index.html][hakyll]] and come out with more-or-less usable HTML.
+
+* Site generator used for this
+Just tossing this in here to see what kinda markup org-mode backend of pandoc comes up with tbh:
+
+#+BEGIN_SRC haskell :eval never
+{-# LANGUAGE OverloadedStrings #-}
+module Main (main)
+where
+
+import Hakyll
+
+main :: IO ()
+main = do
+  hakyll $ do
+    match "templates/*" $ compile templateBodyCompiler
+    match "posts/*.org" $ do
+      route $ setExtension "html"
+      compile $ pandocCompiler
+        >>= loadAndApplyTemplate "templates/blogpost.html" defaultContext
+        >>= relativizeUrls
+#+END_SRC
+
+* Why org though
+Emacs' org-mode is pretty cool, and IMHO one of the reasons to go back to emacs
+even if more "modern" editors like VS Code offer a better out-of-the box
+experience.
+
+For example, you have easy ways to construct ascii tables like this:
+
+|       date | price | availability |
+|------------+-------+--------------|
+| 2021-06-21 |  13.0 | yes          |
+| 2021-08-01 |  4000 | no           |
+| 2021-09-01 |   n/a | no           |
+
+or code blocks like this
+
+#+NAME: ruby-example
+#+BEGIN_SRC ruby :results output :exports both
+5.times { puts "hello world" }
+#+END_SRC
+
+results in:
+
+#+RESULTS: ruby-example
+: hello world
+: hello world
+: hello world
+: hello world
+: hello world
+
+
+** Outstanding problems
+   As you may have noticed, I have to specify the title twice. Still in the
+   process of figuring out how to properly get pandoc-parsed org metadata into
+   hakyll, meanwhile I have to specify it as yaml metadata
