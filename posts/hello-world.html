@@ -1,0 +1,80 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Development Blog - Hello World</title>
+    <!-- milligram stuff -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css">
+
+    <style>
+     main {
+       max-width: 80rem;
+       margin: 0 auto;
+     }
+    </style>
+  </head>
+  <body>
+    <main>
+      <p>This is the first blog post created here. It doesn’t really contain anything too useful at the moment because it only exists to test to asset creation pipeline. In principle what I am hoping to happen is that I can just toss this file to <a href="https://pandoc.org">pandoc</a> via <a href="https://jaspervdj.be/hakyll/index.html">hakyll</a> and come out with more-or-less usable HTML.</p>
+<h1 id="site-generator-used-for-this">Site generator used for this</h1>
+<p>Just tossing this in here to see what kinda markup org-mode backend of pandoc comes up with tbh:</p>
+<div class="sourceCode" id="cb1" data-eval="never"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ot">{-# LANGUAGE OverloadedStrings #-}</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">module</span> <span class="dt">Main</span> (main)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">where</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Hakyll</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="ot">main ::</span> <span class="dt">IO</span> ()</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>main <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  hakyll <span class="op">$</span> <span class="kw">do</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    match <span class="st">&quot;templates/*&quot;</span> <span class="op">$</span> compile templateBodyCompiler</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    match <span class="st">&quot;posts/*.org&quot;</span> <span class="op">$</span> <span class="kw">do</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>      route <span class="op">$</span> setExtension <span class="st">&quot;html&quot;</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>      compile <span class="op">$</span> pandocCompiler</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>        <span class="op">&gt;&gt;=</span> loadAndApplyTemplate <span class="st">&quot;templates/blogpost.html&quot;</span> defaultContext</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>        <span class="op">&gt;&gt;=</span> relativizeUrls</span></code></pre></div>
+<h1 id="why-org-though">Why org though</h1>
+<p>Emacs’ org-mode is pretty cool, and IMHO one of the reasons to go back to emacs even if more “modern” editors like VS Code offer a better out-of-the box experience.</p>
+<p>For example, you have easy ways to construct ascii tables like this:</p>
+<table>
+<thead>
+<tr class="header">
+<th>date</th>
+<th>price</th>
+<th>availability</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>2021-06-21</td>
+<td>13.0</td>
+<td>yes</td>
+</tr>
+<tr class="even">
+<td>2021-08-01</td>
+<td>4000</td>
+<td>no</td>
+</tr>
+<tr class="odd">
+<td>2021-09-01</td>
+<td>n/a</td>
+<td>no</td>
+</tr>
+</tbody>
+</table>
+<p>or code blocks like this</p>
+<div class="sourceCode" id="ruby-example" data-results="output" data-exports="both"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="ruby-example-1"><a href="#ruby-example-1" aria-hidden="true" tabindex="-1"></a><span class="dv">5</span><span class="at">.times</span> <span class="kw">{</span> <span class="fu">puts</span> <span class="st">&quot;hello world&quot;</span> <span class="kw">}</span></span></code></pre></div>
+<p>results in:</p>
+<pre class="example"><code>hello world
+hello world
+hello world
+hello world
+hello world
+</code></pre>
+<h2 id="outstanding-problems">Outstanding problems</h2>
+<p>As you may have noticed, I have to specify the title twice. Still in the process of figuring out how to properly get pandoc-parsed org metadata into hakyll, meanwhile I have to specify it as yaml metadata</p>
+    </main>
+  </body>
+</html>
