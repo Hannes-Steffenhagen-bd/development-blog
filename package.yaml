@@ -11,4 +11,5 @@ executables:
     - -rtsopts
     - -with-rtsopts=-N
     dependencies:
-    - base >=4.9 && < 5
+    - base >=4.14 && < 5
+    - hakyll >= 4.14
